@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/usersModel");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
@@ -51,7 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
       return res.status(400).json({ message: "이미 등록된 아이디, 이메일 또는 학번입니다." });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcryptjs.hash(password, 10);
     user = await User.create({
       name,
       studentId,
@@ -93,7 +93,7 @@ const loginUser = asyncHandler(async (req, res) => {
       if(!user) {
         return res.status(401).json({message: "일치하는 사용자가 없습니다."});
       }
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await bcryptjs.compare(password, user.password);
       if(!isMatch) {
         return res.status(401).json({
           success: false,
