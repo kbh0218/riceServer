@@ -26,7 +26,10 @@ connectDb();
 // 미들웨어 설정
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: 'https://riceserver.onrender.com', // 실제 프론트엔드 도메인으로 변경
+  }));
+  
 app.use(express.static(path.join(__dirname, 'public')));
 
 
