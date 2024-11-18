@@ -18,7 +18,7 @@ const connectDb = async () => {
         console.log(`MongoDB에 성공적으로 연결되었습니다: ${connect.connection.host}`);
     } catch (error) {
         console.error('MongoDB 연결 오류:', error);
-        process.exit(1);
+        // process.exit(1);
     }
 };
 connectDb();
@@ -35,7 +35,7 @@ const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 // 라우트 설정
-app.use(userRoutes); // '/'삭제
+// app.use(userRoutes); 중복 제거
 app.use('/api/posts', postRoutes);
 app.use('/api/user', userRoutes);
 
@@ -62,7 +62,7 @@ app.use((err, req, res, next) => {
 
 // 서버 시작
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => { //이 부분 수정
     console.log(`서버가 http://localhost:${PORT} 에서 실행 중입니다.`);
     console.log(`Local: http://localhost:${PORT}`);
     console.log(`Network: http://${getLocalIpAddress()}:${PORT}`);
@@ -108,7 +108,10 @@ async function initializeDatabase() {
 }
 
 // 초기화 실행
-initializeDatabase().catch((err) => console.error('데이터베이스 초기화 중 오류:', err));
+initializeDatabase().catch((err) => {
+    console.error('데이터베이스 초기화 중 오류:', err);
+    // 필요 시 추가 오류 처리 로직 추가
+  });
 
 // Survey 라우터 등록
 const surveyRoutes = require('./routes/surveyRoutes');
